@@ -651,7 +651,11 @@ impl Serialize for LoadedTable {
             LoadedTable::gvar(_) => unimplemented!(),
             LoadedTable::head(expr) => expr.to_bytes(data),
             LoadedTable::hhea(expr) => expr.to_bytes(data),
-            LoadedTable::hmtx(_) => unimplemented!(),
+            LoadedTable::hmtx(expr) => {
+                let (extra, _) = expr.to_bytes();
+                data.extend(extra);
+                Ok(())
+            }
             LoadedTable::glyf(_) => unimplemented!(),
             LoadedTable::loca(_) => unimplemented!(),
             LoadedTable::maxp(expr) => expr.to_bytes(data),
